@@ -8,10 +8,10 @@ branding:
 inputs:
   creds:
     description: "Contents of a Service Account JSON Key"
-    required: true
+    required: false
   creds_path:
     description: "Absolute path of a Service Account JSON File (cannot be used with `creds`)"
-    required: true
+    required: false
   instance:
     description: "CloudSQL instance"
     required: true
