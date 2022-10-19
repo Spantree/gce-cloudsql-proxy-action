@@ -9,6 +9,9 @@ inputs:
   creds:
     description: "Contents of a Service Account JSON Key"
     required: true
+  creds_path:
+    description: "Absolute path of a Service Account JSON File (cannot be used with `creds`)"
+    required: true
   instance:
     description: "CloudSQL instance"
     required: true
@@ -29,7 +32,15 @@ runs:
       run: |
         # write google application credentials to a temporary file to be used inside the container
         mkdir -p /tmp/gce-cloudsql-proxy
-        echo '${{ inputs.creds }}' > /tmp/gce-cloudsql-proxy/key.json
+        if '${{ inputs.creds_path }}' then
+          if '${{ inputs.creds }}' then
+            echo 'must specify only one of "creds" or "creds_path"'
+          else
+            cp '${{ inputs.creds_path }}' /tmp/gce-cloudsql-proxy/key.json
+          fi
+        else
+          echo '${{ inputs.creds }}' > /tmp/gce-cloudsql-proxy/key.json
+        fi
 
         # start container
         docker run -d --net host --name gce-cloudsql-proxy --restart on-failure \
