@@ -1,4 +1,4 @@
-name: "Google Cloud SQL Proxy"
+name: "SpanTree Google Cloud SQL Proxy"
 description: "Start Google CloudSQL Proxy"
 
 branding:
